@@ -41,6 +41,14 @@ public class ReportServiceImpl implements ReportService{
     	if(null!=req.getGender()&& !"".equals(req.getGender())) {
     		entity.setGender(req.getGender());
     	}
+
+        if(null!=req.getPlanStartDate()){
+            entity.setPlanStartDate(req.getPlanStartDate());
+        }
+
+        if(null!=req.getPlanEndDate()){
+            entity.setPlanEndDate(req.getPlanEndDate());
+        }
     	
         return repo.findAll(Example.of(entity));
     }
