@@ -2,7 +2,6 @@ package org.dev.InsuranceReportApp.controller;
 
 import org.dev.InsuranceReportApp.binder.SearchRequest;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
-import org.dev.InsuranceReportApp.repo.CitizenPlanRepo;
 import org.dev.InsuranceReportApp.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -45,14 +45,12 @@
 								<form:option value="male" path="gender"></form:option>
 								<form:option value="female" path="gender"></form:option>
 							</form:select></td>
-
 					</tr>
 					<tr>
-
 						<td><form:label path="planStartDate">Start Date :</form:label>
 							<form:input type="date" path="planStartDate" /></td>
-						<td><form:label path="planEndDate">End Date :</form:label> <form:input
-								type="date" path="planEndDate" /></td>
+						<td><form:label path="planEndDate">End Date :</form:label>
+				    	<form:input	type="date" path="planEndDate" /></td>
 						<td></td>
 					</tr>
 					<tr>
