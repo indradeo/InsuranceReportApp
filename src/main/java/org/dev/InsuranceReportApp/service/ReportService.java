@@ -1,5 +1,6 @@
 package org.dev.InsuranceReportApp.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.dev.InsuranceReportApp.binder.SearchRequest;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public interface ReportService {
 
     List<CitizenPlan> searchCitizens(SearchRequest req);
 
-    boolean exportExcel();
+    boolean exportExcel(HttpServletResponse response) throws Exception;
 
-    boolean exportPdf();
+    boolean exportPdf(HttpServletResponse response) throws Exception;
 
 	List<CitizenPlan> findAll();
 }
