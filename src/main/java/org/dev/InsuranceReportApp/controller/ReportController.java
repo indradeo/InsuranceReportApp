@@ -1,5 +1,6 @@
 package org.dev.InsuranceReportApp.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.dev.InsuranceReportApp.binder.SearchRequest;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
 import org.dev.InsuranceReportApp.service.ReportService;
@@ -32,9 +33,33 @@ public class ReportController {
 		List<CitizenPlan> citizens = reportService.searchCitizens(req);
 		System.out.println(citizens);
 		model.addAttribute("citizens", citizens);
+		model.addAttribute("searchRequest" , req);
 
 		return "index";
 	}
+
+	@GetMapping("/exportExcel")
+	public void exportExcel(HttpServletResponse response) throws Exception {
+		response.setContentType("application/octet-stream");
+		response.addHeader("Content-Disposition","attachment; filename=plans.xls");
+		reportService.exportExcel(response);
+	}
+
+	@GetMapping("/exportPdf")
+	public void exportPdf(HttpServletResponse response) throws Exception {
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition","attachment; filename=plans.pdf");
+		reportService.exportPdf(response);
+	}
+
+
+
+
+
+
+
+
+
 
 	@GetMapping("/searchC")
 	@ResponseBody

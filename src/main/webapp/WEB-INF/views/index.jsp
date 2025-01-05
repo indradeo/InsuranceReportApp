@@ -54,7 +54,8 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="Search"
+					    <td><a href="/welcome" class="btn btn-secondary">Reset</a>
+						<input type="submit" value="Search"
 							class="btn btn-primary" /></td>
 
 						<td></td>
@@ -64,11 +65,12 @@
 			</form:form>
 		</div>
 		<hr>
-		<div style="">
-			<h2>Citizens List</h2>
+		<div>
+			<h4 class="text-center">Citizens List</h4>
 
-			<table class="table text-size='4px'">
-				<tr>
+			<table class="table table-borderless">
+				<tr class="thead-dark">
+				    <th>S.No</th>
 					<th>Citizen Name</th>
 					<th>Plan Name</th>
 					<th>Plan Status</th>
@@ -82,12 +84,14 @@
 				</tr>
 				<%
 				List<CitizenPlan> citizens = (List<CitizenPlan>) request.getAttribute("citizens");
-
+                int count=1;
 				// Check if the list is not null or empty
 				if (citizens != null && !citizens.isEmpty()) {
 					for (CitizenPlan citizen : citizens) {
+
 				%>
 				<tr>
+				    <td><%=count++ %></td>
 					<td><%=citizen.getCitizenName()%></td>
 					<td><%=citizen.getPlanName()%></td>
 					<td><%=citizen.getPlanStatus()%></td>
@@ -105,14 +109,14 @@
 				} else {
 				%>
 					<tr>
-						<td colspan="9" class="text-center">No record Found!!</td>
+						<td colspan="10" style="color:red" class="text-center">No record Found !!</td>
 					</tr>
 				<%
 				}
 				%>
 			</table>
 		</div>
-		<hr>
+
 		<div>
 			<table class="table">
 				<tr>
@@ -122,8 +126,9 @@
 				</tr>
 			</table>
 		</div>
-
+		<hr>
 	</div>
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
