@@ -47,7 +47,7 @@ public class ReportController {
 
 	@GetMapping("/exportPdf")
 	public void exportPdf(HttpServletResponse response) throws Exception {
-		response.setContentType("application/octet-stream");
+		response.setContentType("application/pdf");
 		response.addHeader("Content-Disposition","attachment; filename=plans.pdf");
 		reportService.exportPdf(response);
 	}
