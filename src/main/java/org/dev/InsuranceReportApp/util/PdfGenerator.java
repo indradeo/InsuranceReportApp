@@ -5,20 +5,22 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
-import org.dev.InsuranceReportApp.repo.CitizenPlanRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 @Service
 public class PdfGenerator {
 
-    public void generatePdf(HttpServletResponse response, List<CitizenPlan> citizens) throws Exception {
+    public void generatePdf(HttpServletResponse response, List<CitizenPlan> citizens, File file) throws Exception {
 
         Document document= new Document(PageSize.A4);
-        PdfWriter.getInstance(document,response.getOutputStream());
+
+       // PdfWriter.getInstance(document,response.getOutputStream());
+        PdfWriter.getInstance(document,new FileOutputStream(file));
         document.open();
 
         Paragraph p=new Paragraph("Citizen Plan Info");
@@ -52,6 +54,6 @@ public class PdfGenerator {
         document.close();
 
 
-        //half completed
+
     }
 }

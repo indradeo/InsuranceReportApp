@@ -1,6 +1,7 @@
 package org.dev.InsuranceReportApp.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.dev.InsuranceReportApp.binder.MailDetails;
 import org.dev.InsuranceReportApp.binder.SearchRequest;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
 import org.dev.InsuranceReportApp.service.ReportService;
@@ -23,12 +24,12 @@ public class ReportController {
 		model.addAttribute("citizens", citizens);
 		init(model);
 		model.addAttribute("searchRequest", new SearchRequest());
+		model.addAttribute("isData",false);
 		return "index";
 	}
 
 	@PostMapping("/search")
 	public String searchCitizen(SearchRequest req, Model model) {
-		System.out.println(req);
 		init(model);
 		List<CitizenPlan> citizens = reportService.searchCitizens(req);
 		System.out.println(citizens);
@@ -39,41 +40,31 @@ public class ReportController {
 	}
 
 	@GetMapping("/exportExcel")
-	public void exportExcel(HttpServletResponse response) throws Exception {
-		response.setContentType("application/octet-stream");
-		response.addHeader("Content-Disposition","attachment; filename=plans.xls");
-		reportService.exportExcel(response);
+	public String exportExcel(HttpServletResponse response, MailDetails mailDetails, Model model) throws Exception {
+		//response.setContentType("application/octet-stream");
+		//response.addHeader("Content-Disposition","attachment; filename=plans.xls");
+		reportService.exportExcel(response, mailDetails);
+		init(model);
+		return "redirect:/welcome";
 	}
 
 	@GetMapping("/exportPdf")
-	public void exportPdf(HttpServletResponse response) throws Exception {
-		response.setContentType("application/pdf");
-		response.addHeader("Content-Disposition","attachment; filename=plans.pdf");
-		reportService.exportPdf(response);
+	public String exportPdf(HttpServletResponse response, MailDetails mailDetails, Model model) throws Exception {
+		//response.setContentType("application/pdf");
+		//response.addHeader("Content-Disposition","attachment; filename=plans.pdf");
+		reportService.exportPdf(response, mailDetails);
+		init(model);
+
+		return "redirect:/welcome";
 	}
 
-
-
-
-
-
-
-
-
-
-	@GetMapping("/searchC")
-	@ResponseBody
-	public List<CitizenPlan> search(@ModelAttribute SearchRequest req) {
-
-		List<CitizenPlan> citi = reportService.searchCitizens(req);
-		System.out.println(citi);
-		return citi;
-	}
 
 	private void init(Model model) {
 		
 		model.addAttribute("planNames", reportService.getPlanNames());
 		model.addAttribute("planStatuses", reportService.getPlanStatus());
+		model.addAttribute("mailDetails", new MailDetails());
+		model.addAttribute("isData",true);
 	}
 
 }
