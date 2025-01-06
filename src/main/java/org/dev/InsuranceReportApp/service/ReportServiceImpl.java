@@ -1,15 +1,18 @@
 package org.dev.InsuranceReportApp.service;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.dev.InsuranceReportApp.binder.MailDetails;
 import org.dev.InsuranceReportApp.binder.SearchRequest;
 import org.dev.InsuranceReportApp.entity.CitizenPlan;
 import org.dev.InsuranceReportApp.repo.CitizenPlanRepo;
+import org.dev.InsuranceReportApp.util.EmailUtils;
 import org.dev.InsuranceReportApp.util.ExcelGenerator;
 import org.dev.InsuranceReportApp.util.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -23,6 +26,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private PdfGenerator pdfGenerator;
+
+    @Autowired
+    private EmailUtils emailUtils;
 
     private List<CitizenPlan> citizens;
 
@@ -65,24 +71,25 @@ public class ReportServiceImpl implements ReportService {
 
 
     @Override
-    public boolean exportExcel(HttpServletResponse response) throws Exception {
-
-        excelGenerator.generateExcel(response,citizens);
-
+    public boolean exportExcel(HttpServletResponse response, MailDetails mailDetails) throws Exception {
+        File file= new File("plans.xls");
+        excelGenerator.generateExcel(response,citizens,file);
+        emailUtils.mailSender(mailDetails, file);
+        file.delete();
         return true;
     }
 
     @Override
-    public boolean exportPdf(HttpServletResponse response) throws Exception {
-
-        pdfGenerator.generatePdf(response,citizens);
-
-        return false;
+    public boolean exportPdf(HttpServletResponse response, MailDetails mailDetails) throws Exception {
+        File file = new File("plans.pdf");
+        pdfGenerator.generatePdf(response,citizens,file);
+        emailUtils.mailSender(mailDetails, file);
+        file.delete();
+        return true;
     }
 
     @Override
     public List<CitizenPlan> findAll() {
-
         return repo.findAll();
     }
 }

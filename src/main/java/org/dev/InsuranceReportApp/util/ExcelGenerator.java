@@ -11,6 +11,8 @@ import org.dev.InsuranceReportApp.repo.CitizenPlanRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 @Service
@@ -19,7 +21,7 @@ public class ExcelGenerator {
     @Autowired
     private CitizenPlanRepo repo;
 
-    public void generateExcel(HttpServletResponse response, List<CitizenPlan> citizenPlans) throws Exception {
+    public void generateExcel(HttpServletResponse response, List<CitizenPlan> citizenPlans, File file) throws Exception {
 
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("PlansData");
@@ -62,9 +64,13 @@ public class ExcelGenerator {
             rowNumber++;
         }
 
-        ServletOutputStream outputStream = response.getOutputStream();
+        FileOutputStream fos= new FileOutputStream(file);
+        workbook.write(fos);
+
+        /*ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
+        outputStream.flush();*/
         workbook.close();
-        outputStream.flush();
+
     }
 }
